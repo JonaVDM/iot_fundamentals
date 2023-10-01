@@ -13,7 +13,10 @@ class Database:
                                           cursorclass=pymysql.cursors.DictCursor)
 
     def insert(self, temperature, pressure, humidity, time, device):
-        sql = "INSERT INTO `climate` (`id`, `humidity`, `pressure`, `temperature`, `time`, `uploaded`, `device_id`) VALUES (NULL, %s, %s, %s, %s, '0', %s);"
+        sql = """
+            INSERT INTO `climate` (`humidity`, `pressure`, `temperature`, `time`, `uploaded`, `device_id`)
+            VALUES (%s, %s, %s, %s, '0', %s);
+        """
         cursor = self.connection.cursor()
         cursor.execute(sql, (humidity, pressure, temperature, time, device))
         self.connection.commit()
