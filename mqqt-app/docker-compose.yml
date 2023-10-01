@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  database:
+    image: mariadb
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_DATABASE: climate
+      MARIADB_USER: maria
+      MARIADB_PASSWORD: secret
+      MARIADB_ROOT_PASSWORD: secret
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8089:80
+    environment:
+      PMA_USER: maria
+      PMA_PASSWORD: secret
+      PMA_HOST: database

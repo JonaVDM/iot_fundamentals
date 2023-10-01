@@ -42,7 +42,8 @@ while True:
     data = {
         "temperature": bme.values[0],
         "pressure": bme.values[1],
-        "humidity": bme.values[2]
+        "humidity": bme.values[2],
+        "client": config.mqtt_client_id,
     }
 
     print(data)
