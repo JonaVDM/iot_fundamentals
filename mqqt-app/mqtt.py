@@ -23,17 +23,21 @@ class Mqtt():
         client.subscribe(self.topic)
 
     def on_message(self, client, userdata, msg):
-        data = json.loads(msg.payload.decode('utf8'))
+        try:
+            data = json.loads(msg.payload.decode('utf8'))
 
-        now = datetime.datetime.now()
-        temp = str.replace(data['temperature'], 'C', '')
-        hum = str.replace(data['humidity'], '%', '')
-        pres = str.replace(data['pressure'], 'hPa', '')
-        client = data['client']
+            now = datetime.datetime.now()
+            temp = str.replace(data['temperature'], 'C', '')
+            hum = str.replace(data['humidity'], '%', '')
+            pres = str.replace(data['pressure'], 'hPa', '')
+            client = data['client']
 
-        print(data)
+            print(data)
 
-        self.db.insert(temp, pres, hum, now, client)
+            self.db.insert(temp, pres, hum, now, client)
+
+        except Exception:
+            print("wel shit man, iets ging mis")
 
     def loop(self):
         self.client.loop_forever()
