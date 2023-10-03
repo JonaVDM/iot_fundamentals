@@ -11,7 +11,18 @@ class Mqtt:
     client: paho.Client
     cloud: Cloud
 
-    def __init__(self, host, port, username, password, topic, database: Database, cloud: Cloud):
+    def __init__(self, host: str, port: int, username: str, password: str, topic: str, database: Database, cloud: Cloud):
+        """
+        Create a new instance of the mqtt client
+
+        :param host: The host address of the mqtt server
+        :param port: The port that is begin used
+        :param username: The usernmae
+        :param password: The passsword
+        :param topic: The topic to subscribe to
+        :param database: Instance of the database
+        :param cloud: Instane of the azure instance
+        """
         self.topic = topic
         self.db = database
         self.cloud = cloud
@@ -22,10 +33,16 @@ class Mqtt:
         self.client.connect(host, port, 60)
 
     def on_connection(self, client, userdata, flags, rc):
+        """
+        Create the connection to the mqtt server
+        """
         print("Connected with result code "+str(rc))
         client.subscribe(self.topic)
 
     def on_message(self, client, userdata, msg):
+        """
+        Called whenever a message is received
+        """
         try:
             data = json.loads(msg.payload.decode('utf8'))
             print("Got some data")
@@ -48,4 +65,7 @@ class Mqtt:
             print("wel shit man, iets ging mis")
 
     def loop(self):
+        """
+        Keeps the mqtt client running
+        """
         self.client.loop_forever()

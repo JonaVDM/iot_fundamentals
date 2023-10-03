@@ -24,7 +24,15 @@ class Entry:
 class Database:
     connection: pymysql.Connection
 
-    def __init__(self, host, user, password, database):
+    def __init__(self, host: str, user: str, password: str, database: str):
+        """
+        Create a new instance
+
+        :param host: The host address of the database
+        :param user: The username
+        :param password: The password
+        :param database: The name of the database
+        """
         self.connection = pymysql.connect(host=host,
                                           user=user,
                                           password=password,
