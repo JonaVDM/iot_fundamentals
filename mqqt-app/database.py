@@ -20,6 +20,18 @@ class Entry:
         obj['time'] = int(self.time.timestamp() * 1000)
         return json.dumps(obj)
 
+    @classmethod
+    def from_json(cls, data):
+        return cls(
+            data['id'],
+            data['pressure'],
+            data['temperature'],
+            data['humidity'],
+            data['time'],
+            data['uploaded'],
+            data['device_id']
+        )
+
 
 class Database:
     connection: pymysql.Connection
@@ -84,3 +96,18 @@ class Database:
 
         except Exception:
             print("Database update failed!")
+
+    def get_not_send(self) -> list[Entry]:
+        """
+        Get a list of all the entries that not have been uploaded yet
+
+        :return: The list of entries that have not been uploaded yet
+        """
+        sql = """
+                SELECT * FROM climate
+                WHERE not uploaded;
+            """
+        cursor = self.connection.cursor()
+        cursor.execute(sql)
+        items = cursor.fetchall()
+        return [Entry.from_json(item) for item in items]
