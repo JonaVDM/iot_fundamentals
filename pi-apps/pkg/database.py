@@ -58,7 +58,6 @@ class Database:
         :param entry: The entry to insert
         :return: a new entry with the id inserted
         """
-
         sql = """
             INSERT INTO `climate` (`humidity`, `pressure`, `temperature`, `time`, `uploaded`, `device_id`)
             VALUES (%s, %s, %s, %s, '0', %s);

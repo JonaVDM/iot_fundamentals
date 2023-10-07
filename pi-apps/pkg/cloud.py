@@ -1,5 +1,5 @@
 from azure.iot.device import IoTHubDeviceClient, Message
-from database import Database, Entry
+from pkg.database import Database, Entry
 
 
 class Cloud:
@@ -13,7 +13,8 @@ class Cloud:
         :param connectionString: The device connection string from azure
         :param db: Database object to update the entries
         """
-        self.connection = IoTHubDeviceClient.create_from_connection_string(connectionString, connection_retry=False)
+        self.connection = IoTHubDeviceClient.create_from_connection_string(
+            connectionString, connection_retry=False)
         self.connection.connect()
         self.db = db
 
