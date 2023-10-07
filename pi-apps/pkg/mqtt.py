@@ -10,8 +10,9 @@ class Mqtt:
     db: Database
     client: paho.Client
     cloud: Cloud
+    sendData: bool
 
-    def __init__(self, host: str, port: int, username: str, password: str, topic: str, database: Database, cloud: Cloud):
+    def __init__(self, host: str, port: int, username: str, password: str, topic: str, database: Database, cloud: Cloud, sendData: bool):
         """
         Create a new instance of the mqtt client
 
@@ -31,6 +32,7 @@ class Mqtt:
         self.client.on_connect = self.on_connection
         self.client.username_pw_set(username, password)
         self.client.connect(host, port, 60)
+        self.sendData = sendData
 
     def on_connection(self, client, userdata, flags, rc):
         """
@@ -59,7 +61,10 @@ class Mqtt:
 
             obj = self.db.insert(obj)
             print(obj)
-            self.cloud.send_data(obj)
+
+            if self.sendData != 0:
+                print("sending data to azure")
+                self.cloud.send_data(obj)
 
         except Exception:
             print("wel shit man, iets ging mis")

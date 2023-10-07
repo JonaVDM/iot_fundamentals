@@ -16,6 +16,7 @@ db = Database(db_host, db_user, db_pass, db_name)
 # Make azure connection
 az_connection = getenv('AZURE_CONNECTION', '')
 cloud = Cloud(az_connection, db)
+az_send = getenv('AZURE_ENABLE', 0)
 
 # Make connection to mqtt server
 mt_host = getenv('MQTT_HOST', '')
@@ -24,5 +25,6 @@ mt_user = getenv('MQTT_USER', '')
 mt_pass = getenv('MQTT_PASS', '')
 mt_topic = getenv('MQTT_TOPIC', 'climate')
 
-mqtt = Mqtt(mt_host, int(mt_port), mt_user, mt_pass, mt_topic, db, cloud)
+mqtt = Mqtt(mt_host, int(mt_port), mt_user,
+            mt_pass, mt_topic, db, cloud, int(az_send))
 mqtt.loop()
