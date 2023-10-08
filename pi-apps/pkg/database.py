@@ -133,4 +133,5 @@ class Database:
         cursor = self.connection.cursor()
         cursor.execute(sql, (start, end))
         items = cursor.fetchall()
+        self.connection.commit()
         return [Entry.from_json(item) for item in items]

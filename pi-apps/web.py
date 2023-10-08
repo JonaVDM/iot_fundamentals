@@ -29,4 +29,8 @@ def get_day():
     end = request.args.get('end', default=now)
     start = request.args.get('start', default=yesterday)
 
-    return db.get_data(start, end)
+    return {
+        "data": db.get_data(start, end),
+        "start": start,
+        "end": end,
+    }
