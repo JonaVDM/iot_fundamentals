@@ -15,8 +15,11 @@ db = Database(db_host, db_user, db_pass, db_name)
 
 # Make azure connection
 az_connection = getenv('AZURE_CONNECTION', '')
-cloud = Cloud(az_connection, db)
 az_send = getenv('AZURE_ENABLE', 0)
+
+cloud = None
+if int(az_send) != 0:
+    cloud = Cloud(az_connection, db)
 
 # Make connection to mqtt server
 mt_host = getenv('MQTT_HOST', '')

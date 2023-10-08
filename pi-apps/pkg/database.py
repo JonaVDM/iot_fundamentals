@@ -3,6 +3,7 @@ import pymysql
 import datetime
 from dataclasses import dataclass, asdict
 import json
+import time
 
 
 @dataclass
@@ -45,11 +46,24 @@ class Database:
         :param password: The password
         :param database: The name of the database
         """
-        self.connection = pymysql.connect(host=host,
-                                          user=user,
-                                          password=password,
-                                          database=database,
-                                          cursorclass=pymysql.cursors.DictCursor)
+        retires = 5
+
+        while retires > 0:
+            try:
+                self.connection = pymysql.connect(host=host,
+                                                  user=user,
+                                                  password=password,
+                                                  database=database,
+                                                  cursorclass=pymysql.cursors.DictCursor)
+                break
+            except Exception:
+                print("Failing to connect")
+                retires -= 1
+                time.sleep(5)
+
+        if retires == 0:
+            print("Out of retries, giving up")
+            exit(1)
 
     def insert(self, entry: Entry) -> Entry:
         """
