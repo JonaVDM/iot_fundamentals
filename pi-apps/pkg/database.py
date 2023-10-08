@@ -124,3 +124,13 @@ class Database:
         cursor.execute(sql)
         items = cursor.fetchall()
         return [Entry.from_json(item) for item in items]
+
+    def get_data(self, start: str, end: str) -> list[Entry]:
+        sql = """
+                SELECT * FROM climate
+                WHERE time >= %s AND time <= %s
+            """
+        cursor = self.connection.cursor()
+        cursor.execute(sql, (start, end))
+        items = cursor.fetchall()
+        return [Entry.from_json(item) for item in items]
