@@ -3,6 +3,8 @@ from flask import Flask, request
 from dotenv import load_dotenv
 from os import getenv
 from datetime import datetime, timedelta
+from flask_cors import CORS
+
 
 # Make database connnection
 db_host = getenv('DB_HOST', '')
@@ -14,6 +16,7 @@ db = Database(db_host, db_user, db_pass, db_name)
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/api/data")
