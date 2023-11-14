@@ -6,14 +6,14 @@ from datetime import datetime, timedelta
 from flask_cors import CORS
 
 
+load_dotenv()
+
 # Make database connnection
 db_host = getenv('DB_HOST', '')
 db_user = getenv('DB_USER', '')
 db_pass = getenv('DB_PASS', '')
 db_name = getenv('DB_NAME', '')
 db = Database(db_host, db_user, db_pass, db_name)
-
-load_dotenv()
 
 app = Flask(__name__)
 CORS(app)

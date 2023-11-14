@@ -20,6 +20,6 @@ items = db.get_not_send()
 if len(items) == 0:
     print("No items to send")
 else:
-    for item in db.get_not_send():
+    for item in items:
         cloud.send_data(item)
     print("Send", len(items), "items")
