@@ -18,6 +18,10 @@
 
 <div class="container mx-auto my-2">
   {#if last}
+    <p class="text-sm font-extralight italic">
+      Last measurement at {date.toLocaleString()}
+    </p>
+
     <div class="flex gap-2 justify-between">
       <Value
         label="temperature"
@@ -39,19 +43,21 @@
         label="Pressure"
         symbol="hPa"
         value={last.pressure}
-        min={0}
-        max={100}
+        min={800}
+        max={1200}
       />
     </div>
-
-    <p class="text-sm font-extralight italic">
-      Last measurement at {date.toLocaleString()}
-    </p>
   {/if}
 
   {#key data}
-    <Graph data={data.map((d) => d.temperature)} {labels} label="Temperature" />
-    <Graph data={data.map((d) => d.humidity)} {labels} label="Humidity" />
-    <Graph data={data.map((d) => d.pressure)} {labels} label="Pressure" />
+    <div class="flex flex-col gap-4">
+      <Graph
+        data={data.map((d) => d.temperature)}
+        {labels}
+        label="Temperature"
+      />
+      <Graph data={data.map((d) => d.humidity)} {labels} label="Humidity" />
+      <Graph data={data.map((d) => d.pressure)} {labels} label="Pressure" />
+    </div>
   {/key}
 </div>

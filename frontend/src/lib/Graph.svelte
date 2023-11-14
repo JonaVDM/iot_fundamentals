@@ -22,8 +22,12 @@
           },
         ],
       },
+      options: {
+        responsive: false,
+        maintainAspectRatio: false,
+      },
     });
   }
 </script>
 
-<canvas height="60px" use:chartAction />
+<canvas style="height:350px;" use:chartAction />
