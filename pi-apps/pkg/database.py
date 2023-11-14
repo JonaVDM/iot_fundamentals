@@ -4,6 +4,7 @@ import datetime
 from dataclasses import dataclass, asdict
 import json
 import time
+import pytz
 
 
 @dataclass
@@ -23,7 +24,7 @@ class Entry:
 
     @classmethod
     def from_json(cls, data):
-        return cls(
+        obj = cls(
             data['id'],
             data['pressure'],
             data['temperature'],
@@ -32,6 +33,13 @@ class Entry:
             data['uploaded'],
             data['device_id']
         )
+
+        local_timezone = datetime.timezone(datetime.datetime.now(
+            datetime.timezone.utc).astimezone().utcoffset())
+
+        obj.time = obj.time.astimezone(local_timezone)
+
+        return obj
 
 
 class Database:
@@ -129,6 +137,8 @@ class Database:
         sql = """
                 SELECT * FROM climate
                 WHERE time >= %s AND time <= %s
+                ORDER BY time DESC
+                LIMIT 500
             """
         cursor = self.connection.cursor()
         cursor.execute(sql, (start, end))
