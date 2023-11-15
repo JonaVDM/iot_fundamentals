@@ -3,7 +3,7 @@
   let prediction = "";
 
   onMount(async () => {
-    const req = await fetch("http://localhost:5000/api/prediction");
+    const req = await fetch("/api/prediction");
     const data = await req.json();
 
     if (data.predicion == 1) {

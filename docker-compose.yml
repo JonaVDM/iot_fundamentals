@@ -8,6 +8,8 @@ services:
       MARIADB_USER: cooluser
       MARIADB_PASSWORD: changeme
       MARIADB_ROOT_PASSWORD: reallychangeme
+    volumes:
+      - db:/var/lib/mysql
 
   db_admin:
     image: phpmyadmin
@@ -65,3 +67,6 @@ services:
       - DB_NAME=climate
       - DB_HOST=database
       - AZURE_CONNECTION=
+
+volumes:
+  db:

@@ -4,13 +4,13 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-FROM  base AS ai
+FROM base AS ai
 COPY ai .
 RUN python3 generate.py
 
 FROM base
-COPY --from=ai out.keras model.keras
 RUN pip3 install flask gunicorn
+COPY --from=ai /app/out.keras model.keras
 
 ENV AI_MODEL_PATH "./model.keras"
 ENV FLASK_APP "web.py"

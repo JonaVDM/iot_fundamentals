@@ -10,7 +10,7 @@
   $: date = new Date(last?.time);
 
   onMount(async () => {
-    const req = await fetch("http://pc.lego:5000/api/data");
+    const req = await fetch("/api/data");
     const body = await req.json();
 
     data = body.data.reverse();
