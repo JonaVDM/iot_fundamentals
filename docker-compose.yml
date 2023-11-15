@@ -3,6 +3,7 @@ version: '3.8'
 services:
   mqtt:
     image: eclipse-mosquitto
+    restart: always
     ports:
       - 1883:1883
     volumes:
@@ -12,6 +13,7 @@ services:
 
   database:
     image: mariadb
+    restart: always
     environment:
       MARIADB_DATABASE: climate
       MARIADB_USER: cooluser
@@ -22,6 +24,7 @@ services:
 
   db_admin:
     image: phpmyadmin
+    restart: always
     ports:
       - 8089:80
     environment:
@@ -29,20 +32,19 @@ services:
 
   nginx:
     image: nginx:alpine
+    restart: always
     ports:
       - 3000:80
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
 
   web:
-    build:
-      context: .
-      dockerfile: frontend.Dockerfile
+    image: ghcr.io/jonavdm/iot-frontend
+    restart: always
 
   api:
-    build:
-      context: .
-      dockerfile: api.Dockerfile
+    image: ghcr.io/jonavdm/iot-api
+    restart: always
     environment:
       - DB_USER=cooluser
       - DB_PASS=changeme
@@ -50,9 +52,8 @@ services:
       - DB_HOST=database
 
   listen:
-    build:
-      context: .
-      dockerfile: listen.Dockerfile
+    image: ghcr.io/jonavdm/iot-listen
+    restart: always
     environment:
       - DB_USER=cooluser
       - DB_PASS=changeme
@@ -67,9 +68,8 @@ services:
       - MQTT_TOPIC=climate
 
   cron:
-    build:
-      context: .
-      dockerfile: cron.Dockerfile
+    image: ghcr.io/jonavdm/iot-cron
+    restart: always
     environment:
       - DB_USER=cooluser
       - DB_PASS=changeme
