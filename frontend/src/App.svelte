@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import Value from "./lib/Value.svelte";
   import Graph from "./lib/Graph.svelte";
+  import Prediction from "./lib/Prediction.svelte";
 
   let data: ClimatePoint[] = [];
   $: last = data[0];
@@ -60,4 +61,6 @@
       <Graph data={data.map((d) => d.pressure)} {labels} label="Pressure" />
     </div>
   {/key}
+
+  <Prediction />
 </div>

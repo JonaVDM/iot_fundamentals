@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  database:
+    image: mariadb
+    environment:
+      MARIADB_DATABASE: climate
+      MARIADB_USER: cooluser
+      MARIADB_PASSWORD: changeme
+      MARIADB_ROOT_PASSWORD: reallychangeme
+
+  db_admin:
+    image: phpmyadmin
+    ports:
+      - 8089:80
+    environment:
+      PMA_HOST: database
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 3000:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+  web:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+
+  api:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    environment:
+      - DB_USER=cooluser
+      - DB_PASS=changeme
+      - DB_NAME=climate
+      - DB_HOST=database
+
+  listen:
+    build:
+      context: .
+      dockerfile: listen.Dockerfile
+    environment:
+      - DB_USER=cooluser
+      - DB_PASS=changeme
+      - DB_NAME=climate
+      - DB_HOST=database
+      - AZURE_CONNECTION=
+      - AZURE_ENABLE=0
+      - MQTT_USER=admin
+      - MQTT_PASS=secretpass
+      - MQTT_HOST=10.0.0.97
+      - MQTT_PORT=1883
+      - MQTT_TOPIC=climate
+
+  cron:
+    build:
+      context: .
+      dockerfile: cron.Dockerfile
+    environment:
+      - DB_USER=cooluser
+      - DB_PASS=changeme
+      - DB_NAME=climate
+      - DB_HOST=database
+      - AZURE_CONNECTION=

@@ -16,7 +16,8 @@ db_pass = getenv('DB_PASS', '')
 db_name = getenv('DB_NAME', '')
 db = Database(db_host, db_user, db_pass, db_name)
 
-ai = AI()
+ai_model_path = getenv('AI_MODEL_PATH', '../ai/model.keras')
+ai = AI(ai_model_path)
 
 app = Flask(__name__)
 CORS(app)

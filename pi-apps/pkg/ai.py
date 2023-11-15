@@ -6,8 +6,8 @@ import pandas as pd
 class AI:
     model: tf.keras.Model
 
-    def __init__(self):
-        self.model = tf.keras.models.load_model('../ai/model.keras')
+    def __init__(self, path: str):
+        self.model = tf.keras.models.load_model(path)
         self.model.summary()
 
     def predict(self, entry: Entry):

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 load_dotenv()
 
-model = ai.AI()
+model = ai.AI("model.keras")
 
 db_host = getenv('DB_HOST', '')
 db_user = getenv('DB_USER', '')
