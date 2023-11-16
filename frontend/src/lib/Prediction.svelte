@@ -14,7 +14,7 @@
   });
 </script>
 
-<div>
-  <h2 class="text-xl font-light">What does the AI say?</h2>
+<div class="py-4">
+  <h2 class="text-3xl font-extralight">What does the AI say?</h2>
   <p>{prediction}</p>
 </div>
