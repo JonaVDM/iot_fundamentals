@@ -4,7 +4,6 @@ import datetime
 from dataclasses import dataclass, asdict
 import json
 import time
-import pytz
 
 
 @dataclass
@@ -134,6 +133,9 @@ class Database:
         return [Entry.from_json(item) for item in items]
 
     def get_data(self, start: str, end: str) -> list[Entry]:
+        """
+        Returns a list of entry points between start and end
+        """
         sql = """
                 SELECT * FROM climate
                 WHERE time >= %s AND time <= %s
@@ -145,3 +147,18 @@ class Database:
         items = cursor.fetchall()
         self.connection.commit()
         return [Entry.from_json(item) for item in items]
+
+    def get_latest(self) -> Entry:
+        """
+        Returns the last entry point made
+        """
+        sql = """
+                SELECT * FROM climate
+                ORDER BY time DESC
+                LIMIT 1
+            """
+        cursor = self.connection.cursor()
+        cursor.execute(sql)
+        item = cursor.fetchone()
+        self.connection.commit()
+        return Entry.from_json(item)

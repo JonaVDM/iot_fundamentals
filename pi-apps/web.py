@@ -45,9 +45,7 @@ def get_day():
 
 @app.route("/api/prediction")
 def get_prediction():
-    now = datetime.now()
-    yesterday = datetime.now() - timedelta(hours=1)
-    entry = db.get_data(yesterday, now)[0]
+    entry = db.get_latest()
     return {
         "prediction": ai.predict(entry)
     }
